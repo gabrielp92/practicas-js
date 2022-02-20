@@ -40,14 +40,22 @@ function cambioDeBase(numEntrada, divisor)
         {
             let cociente, resto;
             let cadenaSalida = "";
+            let contSalto = 1;
             do
             {
                 cociente = Math.trunc(numEntrada / divisor); // división entera
                 resto =  numEntrada - divisor * cociente;
                 numEntrada = cociente;
                 cadenaSalida = resto + cadenaSalida;
+                if(contSalto == 20)
+                {   //cada 16 números inserto un salto de línea en la cadena para que se visualice mejor
+                    cadenaSalida = "<br>" + cadenaSalida;
+                    contSalto = 0;
+                }
+                contSalto++;
             }   
             while(cociente != 0);
+
             //muestro lo convertido 
             document.getElementById("pSalida").style.padding= ".25rem .5rem";
             document.querySelector("#pSalida").innerHTML = cadenaSalida; 
