@@ -87,6 +87,37 @@
     border: 2px solid rgba(10,107,126,1);
 }
 
+.main__contenedor__radio{
+    margin-bottom: .75rem;
+}
+
+.main__contenedor__radio__label{
+    color: rgb(22, 43, 78);
+    font-size: 1.5rem;
+    font-weight: 300;
+}
+
+.main__contenedor__radio__input{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+
+    border: 2px solid #999;
+    transition: 0.2s all linear;
+}
+
+.main__contenedor__radio__input:checked{
+    border: 5px solid rgba(10,107,126,1);
+}
+
+#binario{
+    margin-right: 1rem;
+}
+
 .main__contenedor__btn{
     background-color:  rgba(10,107,126,1); 
     border-color:  rgba(10,107,126,1);
@@ -104,6 +135,14 @@
     border-color: rgba(22,82,119,1);
     box-shadow:none;
 }
+
+.main__contenedor__lblResultado{
+    color: rgb(22, 43, 78);
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: .75rem;
+}
+
 
 .main__contenedor__salida{
     background-color: lightgray;

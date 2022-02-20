@@ -1,12 +1,22 @@
-(() => {
-    let btnConvertir = document.getElementById('btnConvertir');
-    btnConvertir.addEventListener('click', ()=>{cambioDeBase();});
-})();
+(() => 
+    {
+        let btnConvertir = document.getElementById('btnConvertir');
+        btnConvertir.addEventListener('click', ()=>
+        {      
+            let entrada = parseInt(document.getElementById('numEntrada').value); // leo número de entrada (en base 10)
+            let base = 2;
+            if(document.getElementById('octal').checked)
+                base = 8;
+            document.querySelector("#resultado").innerHTML = "";
+            document.querySelector("#resultado").innerHTML += " Resultado en base " + base + ":<br>";
+            cambioDeBase(entrada, base);
+        });
+    }
+)();
 
-/* Conversor de base 10 a base 2 */
-function cambioDeBase()
+/* Conversor de base 10 a base 2 o base 8 */
+function cambioDeBase(numEntrada, divisor)
 {
-    let numEntrada = parseInt(document.getElementById('numEntrada').value); // leo número de entrada (en base 10)
     if(isNaN(numEntrada))
     {
         alert("Error: no ha ingresado un número");
@@ -24,17 +34,16 @@ function cambioDeBase()
             else
             {
                 let cociente, resto;
-                let cadenaBinaria = "";
-                let divisor = 2;
+                let cadenaSalida = "";
                 do
                 {
                     cociente = Math.trunc(numEntrada / divisor); // división entera
                     resto =  numEntrada - divisor * cociente;
                     numEntrada = cociente;
-                    cadenaBinaria = resto + cadenaBinaria;
+                    cadenaSalida = resto + cadenaSalida;
                 }   
                 while(cociente != 0);
-                //muestro lo convertido a binario
-                document.querySelector("#pSalida").innerHTML = cadenaBinaria; 
+                //muestro lo convertido 
+                document.querySelector("#pSalida").innerHTML = cadenaSalida; 
             }
 }

@@ -25,8 +25,14 @@
             <div class="col main__contenedor">
                 <label class="main__contenedor__label" for="numEntrada">Número natural en base 10</label>
                 <input class="main__contenedor__input" type="text" id="numEntrada" placeholder="Ingrese número"/>
+                <div class="main__contenedor__radio">
+                    <label class="main__contenedor__radio__label" for="binario">binario</label>
+                    <input class="main__contenedor__radio__input" type="radio" id="binario" name="baseSalida" value="2">
+                    <label class="main__contenedor__radio__label" for="octal">octal</label>
+                    <input class="main__contenedor__radio__input" type="radio" id="octal" name="baseSalida" value="8">
+                </div>
                 <button id="btnConvertir" class="btn-primary main__contenedor__btn">Convertir</button>
-                <label class="main__contenedor__label">Número en binario:<br></label>
+                <label class="main__contenedor__lblResultado" id="resultado"></label>
                 <p class="main__contenedor__salida" id="pSalida"></p>
             </div>
         </main>
