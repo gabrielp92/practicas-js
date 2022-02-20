@@ -4,9 +4,42 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"> 
+    <!-- Íconos Bootstrap-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <title>Simulador Interactivo</title>
+    <!-- link google fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&display=swap" rel="stylesheet">
+    <!-- link al CSS -->
+    <link rel="stylesheet" href="./css/styles.css"/>
 </head>
 <body>
-    
+    <div class="container_fluid">
+        <header class="row header">
+            <div class="col header__contenedor header__gradiente">
+                <p class="header__contenedor__title">Conversor de base</p>
+            </div>
+        </header>
+        <main class="row main">
+            <div class="col main__contenedor">
+                <label class="main__contenedor__label" for="numEntrada">Número natural en base 10</label>
+                <input class="main__contenedor__input" type="text" id="numEntrada" placeholder="Ingrese número"/>
+                <button id="btnConvertir" class="btn-primary main__contenedor__btn">Convertir</button>
+                <label class="main__contenedor__label">Número en binario:<br></label>
+                <p class="main__contenedor__salida" id="pSalida"></p>
+            </div>
+        </main>
+        <footer class="row footer">
+            <div class="col footer__contenedor">
+                <p class="footer_contendor__text">2022 - Gabriel Ignacio Paez</p>
+            </div>
+        </footer>
+        <!-- JS Bootstrap -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
+        </script>  
+        <!--link archivo JS-->
+        <script src="./js/archivojs.js"></script>
+    </div>
 </body>
 </html>
