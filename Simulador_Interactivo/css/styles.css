@@ -143,13 +143,11 @@
     margin-bottom: .75rem;
 }
 
-
 .main__contenedor__salida{
     background-color: lightgray;
     color: rgb(22, 43, 78);
     font-size: 1.5rem;
     font-weight: 500;
-    padding: .25rem .5rem;
 }
 
 .footer{
