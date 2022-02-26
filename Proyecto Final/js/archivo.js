@@ -1,12 +1,13 @@
+/************************************* CLASES *********************************************** */
+
 /* clase Producto */
 class Producto
 {
-    constructor(rutaImg,titulo,marca,color,precio,talle)
+    constructor(rutaImg,titulo,marca,precio,talle)
     {
         this.rutaImg = rutaImg; //para luego poder cargar la imágen del producto
         this.titulo = titulo;
         this.marca = marca;
-        this.color = color;
         this.precio = precio;
         this.talle = talle;
         this.descripcion = "";
@@ -37,7 +38,7 @@ class Carrito
         if(productoCompra.cantDisponible > 0)
         {    
             this.productosCarrito.push(productoCompra);
-            productoCompra.cantDisponible--;//modificar-----------------------------
+            productoCompra.cantDisponible--;
         }
         else
             alert("no quedan mas " + productoCompra.marca + " talle " + productoCompra.talle);
@@ -46,14 +47,15 @@ class Carrito
     /* elimina el producto en la posición pos */
     quitarProducto(pos)
     {
-        this.productosCarrito[pos].cantDisponible++; //modificar------------------
+        this.productosCarrito[pos].cantDisponible++;
         this.productosCarrito.splice(pos,1);
     }
 
     totalCompra()
     {
         let valorTotal = 0;
-        for (const producto in this.productosCarrito)
+
+        for (const producto of this.productosCarrito)
         {
             valorTotal += producto.precio; 
         }
@@ -63,10 +65,11 @@ class Carrito
     totalCompraEnCuotas(cantCuotas)
     {
         //hasta 6 cuotas sin interés
+        let valorTotal;
         if(cantCuotas <=6)
             valorTotal = this.totalCompra();
         else
-            let valorTotal = this.totalCompra() * 0.05 * cantCuotas; //por cada cuota hay un 5% de interés
+            valorTotal = this.totalCompra() * 0.05 * cantCuotas; //por cada cuota hay un 5% de interés
         return valorTotal;
     }
 
@@ -78,41 +81,114 @@ class Carrito
 
 /* clase Tienda */
 class Tienda{
-    constructor(listaProductos, carrito)
+    constructor()
     {
-        this.listaProductos = listaProductos;
-        this.carrito = carrito;
+        this.listaProductos = [];
+        this.carrito = new Carrito();
     }
 
-    agregarAlCarrito(productoCompra)
+    /* se agrega un producto a la tienda */
+    agregarProducto(producto)
     {
+        this.listaProductos.push(producto);
+    }
+
+    quitarProducto(producto)
+    {
+        //recorrer y comparar en la lista de productos
 
     }
 
+    /* Devuelve el producto con el título ingresado como párametro. Si no se encuentra el producto, retorna 0 */
+    buscarProducto(tituloProducto)
+    {
+        let producto = 0;
+        for (let productoTienda of this.listaProductos)
+        {
+            if(productoTienda.titulo == tituloProducto)
+            {
+                producto = productoTienda;
+            }
+        }
+        return producto;
+    }
+
+    /*
     quitarDelCarrito(productoCompra)
     {
 
 
 
-    }
+    }*/
 
 }
 
-function cargarProductosTienda()
+/************************************ FUNCIONES *********************************************************** */
+
+/* función crearTienda */
+function crearTienda()
 {
-        /*
-    let zapatilla1 = new Producto("Nike-AF-1","Nike Air Force", "Nike","Blanco", 22000, 42);
+    let nuevaTienda = new Tienda();
+    return nuevaTienda;
+}
+
+/* función que agrega un producto al menú desplegable */
+function agregarAlMenu(producto)
+{
+    document.querySelector("#menuProductos").innerHTML += '<option>' + producto.titulo + '</option>';
+}
+
+/* se crean los productos de la tienda */
+function cargarProductosTienda(tienda)
+{
+    let zapatilla1 = new Producto("NB-327","NEW BALANCE NB 327", "NEW BALANCE", 17049.00, 42);
     zapatilla1.setCantidad(3);
-    console.log(zapatilla1.getCantidad());
-    console.log(zapatilla1.cantDisponible);
-    zapatilla1.precio = 40000;
-    console.log(zapatilla1.precio);
+    tienda.agregarProducto(zapatilla1);
+    agregarAlMenu(zapatilla1);
+    let zapatilla2 = new Producto("NB-574-SPORT","NEW BALANCE NB 574 SPORT", "NEW BALANCE", 18399.00, 40);
+    zapatilla2.setCantidad(4);
+    tienda.agregarProducto(zapatilla2);
+    agregarAlMenu(zapatilla2);
+    let zapatilla3 = new Producto("NB-X90","NEW BALANCE NB X90", "NEW BALANCE", 19599.00, 41);
+    zapatilla3.setCantidad(6);
+    tienda.agregarProducto(zapatilla3);
+    agregarAlMenu(zapatilla3);
+}
 
-
-    agregarProducto();
-    */
-
+function crearBtnComprar()
+{
+    document.querySelector("#contenedorCarrito").innerHTML +=
+    '<button type="button" id="btnAgregar" class="btn btn-outline-success main__contenedor__btn">comprar</button>';
 
 }
 
-cargarProductosTienda();
+function oyenteBtnAgregarCarrito()
+{
+    let btnAgregar = document.getElementById('btnAgregar');
+    btnAgregar.addEventListener('click', ()=>
+        {  
+            const prodSelected = document.getElementById('menuProductos').value;
+            const producto = tienda.buscarProducto(prodSelected); //se busca el producto por el título (el que aparece en el menú)
+            if(prodSelected != "Productos disponibles")
+            {
+                if(producto != 0)
+                {
+                    tienda.carrito.agregarProducto(producto);
+                    crearBtnComprar();
+                }
+                else
+                    alert("no se pudo agregar al carrito: no disponible en la tienda");
+                alert(tienda.carrito.productosCarrito.length);
+            }
+            else
+                alert("Primero debe seleccionar algún producto dentro del menú");
+        });
+}
+
+/*------------------------------------- CREACIÓN DE ELEMENTOS -----------------------------------------*/
+let tienda = crearTienda();
+cargarProductosTienda(tienda);
+oyenteBtnAgregarCarrito();
+
+//al agregar al carrito todavia no elimino el producto de la tienda. 
+//Solamente eliminaré el producto de la tienda cuando se finaliza la compra (agregar btn para eso)

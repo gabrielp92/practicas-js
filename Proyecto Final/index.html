@@ -52,20 +52,18 @@
                  <div class="alert alert-success alert-dismissible fade show alerta" role="alert">Envío GRATIS a partir de $14999
                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
                 </div>
-                <!-- menú para seleccionar productos que se quieren comprar-->
-                <div class="mb-3 main__contenedor__menu">
-                    <select class="form-select form-select-sm main__contenedor__menu__select" aria-label="menu-productos">
-                        <option selected="">Productos disponibles</option>
-                        <option value="1">Producto 1</option>
-                        <option value="2">Producto 2</option>
-                        <option value="3">Producto 3</option>
-                    </select>
+                <div class="d-flex flex-column justify-content-center" id="contenedorCarrito">
+                    <!-- menú para seleccionar productos que se quieren comprar-->
+                    <div class="mb-3 main__contenedor__menu">
+                        <select class="form-select form-select-sm main__contenedor__menu__select" id="menuProductos" aria-label="menu-productos">
+                            <option selected="">Productos disponibles</option>
+                        </select>
+                    </div>
+                    <!--botón carrito-->
+                    <button type="button" id="btnAgregar" class="btn btn-outline-danger main__contenedor__btn">agregar al carrito</button>
+                    <!--para avisar que se agregó producto al carrito-->
+                    <label class="main__contenedor__lblResultado" id="resultado"></label>
                 </div>
-                <!--botón carrito-->
-                <button type="button" id="btnAgregar" class="btn btn-outline-danger main__contenedor__btn">agregar al carrito</button>
-                <!--para avisar que se agregó producto al carrito-->
-                <label class="main__contenedor__lblResultado" id="resultado"></label>
-
                 <img class="img-fluid main__contenedor__banner" src="./assets/img/Banner1.jpg" alt="banner-zapatilla-NB-327">
             </div>
         </main>
