@@ -172,7 +172,7 @@ function crearMenuCuotas()
     const selectMenu = document.createElement('select');
     contenedorCompra.appendChild(selectMenu);
     document.querySelector("select").classList.add('form-select', 'form-select-sm', 'main__contenedor__menu__select');
-    document.querySelector("div#compra select").style.height = "55%";
+    document.querySelector("div#compra select").style.height = "66%";
 
     const fragment = document.createDocumentFragment();
     for (const cuota of cuotas)
