@@ -69,7 +69,7 @@ class Carrito
         if((cantCuotas >= 0) && (cantCuotas <=6))
             valorTotal = this.totalCompra();
         else
-            valorTotal = this.totalCompra() * 0.05 * cantCuotas; //por cada cuota hay un 5% de interés
+            valorTotal = this.totalCompra() * ( 1 + 0.05 * cantCuotas); //por cada cuota hay un 5% de interés
         return valorTotal;
     }
 
@@ -128,41 +128,44 @@ function crearTienda()
 }
 
 /* función que agrega un producto al menú desplegable */
-function agregarAlMenu(producto)
+function agregarAlMenu()
 {
-    const menuProductos = document.querySelector("#menuProductos");
-    const optionMenu = document.createElement('option');
-    optionMenu.textContent = producto.titulo;
-    menuProductos.appendChild(optionMenu);
+    const menuProductos = document.querySelector('#menuProductos');
+    const template = document.querySelector('#template-option').content;
+    const fragment = document.createDocumentFragment();
+
+    //se usa fragment y template html para agregar los nombres de productos al menú desplegable
+    tienda.listaProductos.forEach(producto => {
+        template.querySelector('option').textContent = producto.titulo;
+        const clone = template.cloneNode(true);
+        fragment.appendChild(clone); 
+    });
+    menuProductos.appendChild(fragment);
 }
 
 /* se crean los productos de la tienda */
 function cargarProductosTienda(tienda)
 {
-    let zapatilla1 = new Producto("NB-327","NEW BALANCE NB 327", "NEW BALANCE", 17049.00, 42);
+    let zapatilla1 = new Producto("NB-327","NEW BALANCE NB 327", "NEW BALANCE", 17049, 42);
     zapatilla1.setCantidad(3);
     tienda.agregarProducto(zapatilla1);
-    agregarAlMenu(zapatilla1);
-    let zapatilla2 = new Producto("NB-574-SPORT","NEW BALANCE NB 574 SPORT", "NEW BALANCE", 18399.00, 40);
+    let zapatilla2 = new Producto("NB-574-SPORT","NEW BALANCE NB 574 SPORT", "NEW BALANCE", 18399, 40);
     zapatilla2.setCantidad(4);
     tienda.agregarProducto(zapatilla2);
-    agregarAlMenu(zapatilla2);
-    let zapatilla3 = new Producto("NB-X90","NEW BALANCE NB X90", "NEW BALANCE", 19599.00, 41);
+    let zapatilla3 = new Producto("NB-X90","NEW BALANCE NB X90", "NEW BALANCE", 19599, 41);
     zapatilla3.setCantidad(6);
     tienda.agregarProducto(zapatilla3);
-    agregarAlMenu(zapatilla3);
-    let zapatilla4 = new Producto("NIKE-AIR-MAX-720","NIKE AIR MAX 720", "NIKE", 39899.00, 42);
+    let zapatilla4 = new Producto("NIKE-AIR-MAX-720","NIKE AIR MAX 720", "NIKE", 39899, 42);
     zapatilla4.setCantidad(5);
     tienda.agregarProducto(zapatilla4);
-    agregarAlMenu(zapatilla4);
-    let zapatilla5 = new Producto("NIKE-PEGASUS-36","AIR ZOOM PEGASUS 36", "NIKE", 27499.00, 41);
+    let zapatilla5 = new Producto("NIKE-PEGASUS-36","AIR ZOOM PEGASUS 36", "NIKE", 27499, 41);
     zapatilla5.setCantidad(4);
     tienda.agregarProducto(zapatilla5);
-    agregarAlMenu(zapatilla5);
-    let zapatilla6 = new Producto("NIKE-VOMERO-14","AIR ZOOM VOMERO 14", "NIKE", 34099.00, 40);
+    let zapatilla6 = new Producto("NIKE-VOMERO-14","AIR ZOOM VOMERO 14", "NIKE", 34099, 40);
     zapatilla6.setCantidad(3);
     tienda.agregarProducto(zapatilla6);
-    agregarAlMenu(zapatilla6);
+
+    agregarAlMenu();    //agrego los nombres de los productos al menú desplegable.
 }
 
 function crearMenuCuotas()
