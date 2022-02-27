@@ -54,7 +54,6 @@
 .main__contenedor{
     color: rgb(22, 43, 78);
     padding: 0px;
-    /*font-family: 'Roboto', sans-serif;*/
     font-family: 'Montserrat', sans-serif;
     font-weight: 500;
     display: flex;
@@ -63,6 +62,10 @@
     justify-content:space-between;
     align-items: center;
     text-align: center;
+}
+
+#contendedorCarrito{
+    margin-bottom: 2rem;
 }
 
 .main__contenedor__menu{
@@ -84,7 +87,6 @@
 }
 
 .main__contenedor__btn{
-    /*font-family: 'Roboto Condensed', sans-serif;*/
     font-family: 'Montserrat', sans-serif;
     font-weight: 500;
     font-size: 1.5rem;
@@ -94,7 +96,7 @@
 
 .main__contenedor__lblResultado{
     color: rgb(22, 43, 78);
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: 500;
     margin-bottom: .75rem;
 }
@@ -104,19 +106,7 @@
     height: auto;
     background-repeat: no-repeat;
     background-size: cover;
-    /*background-attachment: fixed; */
 }
-
-/*
-.main__contenedor__banner:before{
-    content: '';
-    max-width: 100%;
-    min-height: auto;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-image: linear-gradient(rgba(255,255,255,.1), rgba(34,40,49,1));
-}*/
 
 .footer{
     min-height: 8vh;

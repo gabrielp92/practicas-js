@@ -66,7 +66,7 @@ class Carrito
     {
         //hasta 6 cuotas sin interés
         let valorTotal;
-        if(cantCuotas <=6)
+        if((cantCuotas >= 0) && (cantCuotas <=6))
             valorTotal = this.totalCompra();
         else
             valorTotal = this.totalCompra() * 0.05 * cantCuotas; //por cada cuota hay un 5% de interés
@@ -115,12 +115,7 @@ class Tienda{
 
     /*
     quitarDelCarrito(productoCompra)
-    {
-
-
-
-    }*/
-
+    { }*/
 }
 
 /************************************ FUNCIONES *********************************************************** */
@@ -155,33 +150,55 @@ function cargarProductosTienda(tienda)
     agregarAlMenu(zapatilla3);
 }
 
+function crearMenuCuotas()
+{
+    const cuotas = [1,3,6,9,12,18,24];
+    let contenedorCompra = document.getElementById('compra');
+    const selectMenu = document.createElement('select');
+    contenedorCompra.appendChild(selectMenu);
+    document.querySelector("select").classList.add('form-select', 'form-select-sm', 'main__contenedor__menu__select');
+    document.querySelector("div#compra select").style.height = "55%";
+    for (const cuota of cuotas)
+    {
+        const optionMenu = document.createElement('option');
+        optionMenu.textContent = cuota;
+        selectMenu.appendChild(optionMenu);
+    }
+}
+
 function crearBtnComprar()
 {
-    document.querySelector("#contenedorCarrito").innerHTML +=
-    '<button type="button" id="btnAgregar" class="btn btn-outline-success main__contenedor__btn">comprar</button>';
-
+    let contenedorCarrito = document.getElementById('compra');
+    const btnComprar = document.createElement('null');
+    crearMenuCuotas();
+    btnComprar.textContent = "comprar";
+    contenedorCarrito.appendChild(btnComprar);
+    document.querySelector("null").classList.add('btn', 'btn-outline-success', 'main__contenedor__btn');
+    btnComprar.addEventListener('click', () => 
+    {
+        const cantCuotas = parseInt(document.querySelector("div#compra select").value);
+        alert("Total compra: $" + tienda.carrito.totalCompraEnCuotas(cantCuotas) + " en " + cantCuotas + " cuotas.\nValor cuota: $" + tienda.carrito.valorCuota(cantCuotas));
+    });
 }
 
 function oyenteBtnAgregarCarrito()
 {
-    let btnAgregar = document.getElementById('btnAgregar');
+    const btnAgregar = document.querySelector('.btn-outline-danger');
     btnAgregar.addEventListener('click', ()=>
         {  
-            const prodSelected = document.getElementById('menuProductos').value;
-            const producto = tienda.buscarProducto(prodSelected); //se busca el producto por el título (el que aparece en el menú)
-            if(prodSelected != "Productos disponibles")
+            let prodSelected = document.getElementById('menuProductos').value;
+            let producto = tienda.buscarProducto(prodSelected); //se busca el producto por el título (el que aparece en el menú)
+            if(producto != 0)
             {
-                if(producto != 0)
+                if(tienda.carrito.productosCarrito.length == 0)
                 {
-                    tienda.carrito.agregarProducto(producto);
                     crearBtnComprar();
                 }
-                else
-                    alert("no se pudo agregar al carrito: no disponible en la tienda");
-                alert(tienda.carrito.productosCarrito.length);
+                tienda.carrito.agregarProducto(producto);
+                document.getElementById('resultado').textContent = producto.titulo + " agregado al carrito";
             }
             else
-                alert("Primero debe seleccionar algún producto dentro del menú");
+                alert("no se pudo agregar al carrito: no disponible en la tienda");
         });
 }
 
@@ -189,6 +206,3 @@ function oyenteBtnAgregarCarrito()
 let tienda = crearTienda();
 cargarProductosTienda(tienda);
 oyenteBtnAgregarCarrito();
-
-//al agregar al carrito todavia no elimino el producto de la tienda. 
-//Solamente eliminaré el producto de la tienda cuando se finaliza la compra (agregar btn para eso)
