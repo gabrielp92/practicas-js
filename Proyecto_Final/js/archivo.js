@@ -130,7 +130,10 @@ function crearTienda()
 /* función que agrega un producto al menú desplegable */
 function agregarAlMenu(producto)
 {
-    document.querySelector("#menuProductos").innerHTML += '<option>' + producto.titulo + '</option>';
+    const menuProductos = document.querySelector("#menuProductos");
+    const optionMenu = document.createElement('option');
+    optionMenu.textContent = producto.titulo;
+    menuProductos.appendChild(optionMenu);
 }
 
 /* se crean los productos de la tienda */
@@ -148,6 +151,18 @@ function cargarProductosTienda(tienda)
     zapatilla3.setCantidad(6);
     tienda.agregarProducto(zapatilla3);
     agregarAlMenu(zapatilla3);
+    let zapatilla4 = new Producto("NIKE-AIR-MAX-720","NIKE AIR MAX 720", "NIKE", 39899.00, 42);
+    zapatilla4.setCantidad(5);
+    tienda.agregarProducto(zapatilla4);
+    agregarAlMenu(zapatilla4);
+    let zapatilla5 = new Producto("NIKE-PEGASUS-36","AIR ZOOM PEGASUS 36", "NIKE", 27499.00, 41);
+    zapatilla5.setCantidad(4);
+    tienda.agregarProducto(zapatilla5);
+    agregarAlMenu(zapatilla5);
+    let zapatilla6 = new Producto("NIKE-VOMERO-14","AIR ZOOM VOMERO 14", "NIKE", 34099.00, 40);
+    zapatilla6.setCantidad(3);
+    tienda.agregarProducto(zapatilla6);
+    agregarAlMenu(zapatilla6);
 }
 
 function crearMenuCuotas()
@@ -158,12 +173,15 @@ function crearMenuCuotas()
     contenedorCompra.appendChild(selectMenu);
     document.querySelector("select").classList.add('form-select', 'form-select-sm', 'main__contenedor__menu__select');
     document.querySelector("div#compra select").style.height = "55%";
+
+    const fragment = document.createDocumentFragment();
     for (const cuota of cuotas)
     {
         const optionMenu = document.createElement('option');
         optionMenu.textContent = cuota;
-        selectMenu.appendChild(optionMenu);
+        fragment.appendChild(optionMenu);
     }
+    selectMenu.appendChild(fragment);
 }
 
 function crearBtnComprar()
