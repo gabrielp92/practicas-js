@@ -195,7 +195,7 @@ function crearBtnComprar()
     btnComprar.addEventListener('click', () => 
     {
         const cantCuotas = parseInt(document.querySelector("div#compra select").value);
-        alert("Total compra: $" + tienda.carrito.totalCompraEnCuotas(cantCuotas) + " en " + cantCuotas + " cuotas.\nValor cuota: $" + tienda.carrito.valorCuota(cantCuotas));
+        alert("Total compra: $" + tienda.carrito.totalCompraEnCuotas(cantCuotas).toFixed(2) + " en " + cantCuotas + " cuotas.\nValor cuota: $" + tienda.carrito.valorCuota(cantCuotas).toFixed(2));
     });
 }
 
