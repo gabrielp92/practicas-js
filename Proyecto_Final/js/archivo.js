@@ -216,7 +216,7 @@ function oyenteBtnAgregarCarrito()
                     crearBtnComprar();
                 }
                 tienda.carrito.agregarProducto(producto);
-                document.getElementById('resultado').textContent = producto.titulo + " agregado al carrito";
+                document.getElementById('resultado').textContent = producto.titulo + ' agregado al carrito ($' + producto.precio + ')';
             }
             else
                 alert("no se pudo agregar al carrito: no disponible en la tienda");
