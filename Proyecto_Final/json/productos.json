@@ -1,0 +1,50 @@
+[
+    {
+        "id": 1,
+        "imgUrl": "../assets/img/NB-327/nb-327-1.jpg",
+        "titulo": "NEW BALANCE NB 327",
+        "marca": "NEW BALANCE",
+        "precio": 17049,
+        "talle": 42
+    },
+    {
+        "id": 2,
+        "imgUrl": "../assets/img/NB-574-SPORT/574-sport-1.jpg",
+        "titulo": "NEW BALANCE NB 574 SPORT",
+        "marca": "NEW BALANCE",
+        "precio": 18399,
+        "talle": 40
+    },
+    {
+        "id": 3,
+        "imgUrl": "../assets/img/NB-X90/nb-x90-1.jpg",
+        "titulo": "NEW BALANCE NB X90",
+        "marca": "NEW BALANCE",
+        "precio": 19599,
+        "talle": 41
+    },
+    {
+        "id": 4,
+        "imgUrl": "../assets/img/NIKE-AIR-ZOOM-WINFLO-6/air-zoom-winflo-6-1.jpg",
+        "titulo": "AIR ZOOM WINFLO 6",
+        "marca": "NIKE",
+        "precio": 22499,
+        "talle": 42
+    },
+    {
+        "id": 5,
+        "imgUrl": "../assets/img/NIKE-PEGASUS-36/air-zoom-pegasus-36.jpg",
+        "titulo": "AIR ZOOM PEGASUS 36",
+        "marca": "NIKE",
+        "precio": 27499,
+        "talle": 41
+    },
+    {
+        "id": 6,
+        "imgUrl": "../assets/img/NIKE-VOMERO-14/air-zoom-vomero-14.jpg",
+        "titulo": "AIR ZOOM VOMERO 14",
+        "marca": "NIKE",
+        "precio": 34099,
+        "talle": 40
+    }
+]

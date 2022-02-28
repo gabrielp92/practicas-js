@@ -76,17 +76,15 @@
     background-size: cover;
 }
 
-
-.main__contenedor__menu{
-    margin-top: 1.5rem;
-    min-width: 14.5rem;
-    vertical-align: middle;
-}
-
 .main__contenedor__menu__select{
     font-family: 'Montserrat', sans-serif;
     font-size: 1rem;
     font-weight: 500;
+    width: min-content;
+}
+
+#compra{
+    align-items: center;
 }
 
 .main__contenedor__menu__select option{
@@ -101,13 +99,6 @@
     font-size: 1.5rem;
     margin-bottom: 1.25rem;
     padding: .125rem .75rem;
-}
-
-.main__contenedor__lblResultado{
-    color: rgb(22, 43, 78);
-    font-size: 1.25rem;
-    font-weight: 500;
-    margin-bottom: .75rem;
 }
 
 .main__contenedor__banner{

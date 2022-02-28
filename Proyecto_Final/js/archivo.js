@@ -3,9 +3,10 @@
 /* clase Producto */
 class Producto
 {
-    constructor(rutaImg,titulo,marca,precio,talle)
+    constructor(id,imgUrl,titulo,marca,precio,talle)
     {
-        this.rutaImg = rutaImg; //para luego poder cargar la imágen del producto
+        this.id = id;
+        this.imgUrl = imgUrl; //para luego poder cargar la imágen del producto
         this.titulo = titulo;
         this.marca = marca;
         this.precio = precio;
@@ -100,12 +101,12 @@ class Tienda{
     }
 
     /* Devuelve el producto con el título ingresado como párametro. Si no se encuentra el producto, retorna 0 */
-    buscarProducto(tituloProducto)
+    buscarProducto(idProducto)
     {
         let producto = 0;
         for (let productoTienda of this.listaProductos)
         {
-            if(productoTienda.titulo == tituloProducto)
+            if(productoTienda.id == idProducto)
             {
                 producto = productoTienda;
             }
@@ -127,45 +128,48 @@ function crearTienda()
     return nuevaTienda;
 }
 
-/* función que agrega un producto al menú desplegable */
-function agregarAlMenu()
-{
-    const menuProductos = document.querySelector('#menuProductos');
-    const template = document.querySelector('#template-option').content;
-    const fragment = document.createDocumentFragment();
-
-    //se usa fragment y template html para agregar los nombres de productos al menú desplegable
-    tienda.listaProductos.forEach(producto => {
-        template.querySelector('option').textContent = producto.titulo;
-        const clone = template.cloneNode(true);
-        fragment.appendChild(clone); 
-    });
-    menuProductos.appendChild(fragment);
-}
-
-/* se crean los productos de la tienda */
+/* se leen y pintan los productos de la tienda en el sitio */
 function cargarProductosTienda(tienda)
 {
-    let zapatilla1 = new Producto("NB-327","NEW BALANCE NB 327", "NEW BALANCE", 17049, 42);
-    zapatilla1.setCantidad(3);
-    tienda.agregarProducto(zapatilla1);
-    let zapatilla2 = new Producto("NB-574-SPORT","NEW BALANCE NB 574 SPORT", "NEW BALANCE", 18399, 40);
-    zapatilla2.setCantidad(4);
-    tienda.agregarProducto(zapatilla2);
-    let zapatilla3 = new Producto("NB-X90","NEW BALANCE NB X90", "NEW BALANCE", 19599, 41);
-    zapatilla3.setCantidad(6);
-    tienda.agregarProducto(zapatilla3);
-    let zapatilla4 = new Producto("NIKE-AIR-MAX-720","NIKE AIR MAX 720", "NIKE", 39899, 42);
-    zapatilla4.setCantidad(5);
-    tienda.agregarProducto(zapatilla4);
-    let zapatilla5 = new Producto("NIKE-PEGASUS-36","AIR ZOOM PEGASUS 36", "NIKE", 27499, 41);
-    zapatilla5.setCantidad(4);
-    tienda.agregarProducto(zapatilla5);
-    let zapatilla6 = new Producto("NIKE-VOMERO-14","AIR ZOOM VOMERO 14", "NIKE", 34099, 40);
-    zapatilla6.setCantidad(3);
-    tienda.agregarProducto(zapatilla6);
+    const items = document.getElementById('items');
+    const templateCard = document.getElementById('template-card').content;
+    const fragment = document.createDocumentFragment(); //se utiliza para evitar reflow
 
-    agregarAlMenu();    //agrego los nombres de los productos al menú desplegable.
+    document.addEventListener('DOMContentLoaded' , () => {
+        fetchData();
+    })
+
+    const fetchData = async () => {
+        try{
+            const res = await fetch('../json/productos.json');
+            const data = await res.json();
+            pintarCards(data);
+        }
+        catch(error)
+        {
+            console.log(error);
+        }
+    }
+
+    const pintarCards = (data) => {
+        data.forEach( producto => {
+            templateCard.querySelector('img').setAttribute('src', producto.imgUrl);
+            templateCard.querySelector('h5').textContent = producto.titulo;
+            templateCard.querySelector('p').textContent = "$ " + producto.precio;
+            templateCard.querySelector('.btn-dark').dataset.id = producto.id;
+            const clone = templateCard.cloneNode(true);
+            fragment.appendChild(clone);
+
+            let nuevoProducto = new Producto(producto.id, producto.imgUrl, producto.titulo, producto.marca, producto.precio, producto.talle);
+            nuevoProducto.setCantidad(5); //inicialmente habrá 5 productos de cada uno
+            tienda.agregarProducto(nuevoProducto);
+        })
+        items.appendChild(fragment);
+    }
+
+    items.addEventListener('click', e => {
+        oyenteBtnComprar(e);
+    })
 }
 
 function crearMenuCuotas()
@@ -187,43 +191,44 @@ function crearMenuCuotas()
     selectMenu.appendChild(fragment);
 }
 
-function crearBtnComprar()
+function crearBtnFinalizarCompra()
 {
     let contenedorCarrito = document.getElementById('compra');
-    const btnComprar = document.createElement('null');
+    const btnFinalizarCompra = document.createElement('null');
     crearMenuCuotas();
-    btnComprar.textContent = "comprar";
-    contenedorCarrito.appendChild(btnComprar);
+    btnFinalizarCompra.textContent = "Finalizar compra";
+    contenedorCarrito.appendChild(btnFinalizarCompra);
     document.querySelector("null").classList.add('btn', 'btn-outline-success', 'main__contenedor__btn');
-    btnComprar.addEventListener('click', () => 
+    btnFinalizarCompra.addEventListener('click', () => 
     {
         const cantCuotas = parseInt(document.querySelector("div#compra select").value);
         alert("Total compra: $" + tienda.carrito.totalCompraEnCuotas(cantCuotas).toFixed(2) + " en " + cantCuotas + " cuotas.\nValor cuota: $" + tienda.carrito.valorCuota(cantCuotas).toFixed(2));
     });
 }
 
-function oyenteBtnAgregarCarrito()
+function oyenteBtnComprar(e)
 {
-    const btnAgregar = document.querySelector('.btn-outline-danger');
-    btnAgregar.addEventListener('click', ()=>
-        {  
-            let prodSelected = document.getElementById('menuProductos').value;
-            let producto = tienda.buscarProducto(prodSelected); //se busca el producto por el título (el que aparece en el menú)
-            if(producto != 0)
+    if(e.target.classList.contains('btn-dark'))
+    {
+        //primero obtengo el id del producto clickeado que se quiere agregar al carrito
+        const id = e.target.parentElement.querySelector('.btn-dark').dataset.id; 
+        const producto = tienda.buscarProducto(id);
+        if(producto != 0)
+        {
+            if(tienda.carrito.productosCarrito.length == 0)
             {
-                if(tienda.carrito.productosCarrito.length == 0)
-                {
-                    crearBtnComprar();
-                }
-                tienda.carrito.agregarProducto(producto);
-                document.getElementById('resultado').textContent = producto.titulo + ' agregado al carrito ($' + producto.precio + ')';
+                crearBtnFinalizarCompra();
             }
-            else
-                alert("no se pudo agregar al carrito: no disponible en la tienda");
-        });
+            tienda.carrito.agregarProducto(producto);
+            alert(producto.titulo + ' agregado al carrito.\nArriba de los productos se habilitó un botón para finalizar la compra según la cantidad de cuotas seleccionada');
+        }
+        else
+            alert("no se pudo agregar al carrito: no disponible en la tienda");
+    }
+    e.stopPropagation();
 }
 
 /*------------------------------------- CREACIÓN DE ELEMENTOS -----------------------------------------*/
 let tienda = crearTienda();
 cargarProductosTienda(tienda);
-oyenteBtnAgregarCarrito();
+
