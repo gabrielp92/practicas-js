@@ -3,7 +3,7 @@
 /* clase Producto */
 class Producto
 {
-    constructor(id,imgUrl,titulo,marca,precio,talle)
+    constructor(id,imgUrl,titulo,marca,precio,talle,cantDisponible)
     {
         this.id = id;
         this.imgUrl = imgUrl; //para luego poder cargar la imágen del producto
@@ -12,7 +12,8 @@ class Producto
         this.precio = precio;
         this.talle = talle;
         this.descripcion = "";
-        this.cantDisponible = 0;
+        this.cantDisponible = cantDisponible;    //cantidad disponible en la tienda
+        this.cantEnCarrito = 0;                 //cantidad seleccionada en el carrito de ese producto    
     }
 
     setCantidad(cantDisponible)
@@ -34,21 +35,42 @@ class Carrito
         this.productosCarrito = [];
     }
 
-    agregarProducto(productoCompra)
+    agregarProducto(productoCompra,e)
     {
-        if(productoCompra.cantDisponible > 0)
-        {    
+        if(this.buscarProducto(productoCompra) == null)
+        {
+            //se agrega el producto por primera vez en el carrito.
             this.productosCarrito.push(productoCompra);
-            productoCompra.cantDisponible--;
-        }
-        else
-            alert("no quedan mas " + productoCompra.marca + " talle " + productoCompra.talle);
+            productoCompra.cantEnCarrito++;
+            let contenedorProdCarrito = document.querySelector('#infoCarritoMain');
+            const divProdCarrito = document.createElement('div');
+            divProdCarrito.style.border = '1.5px groove rgba(33,37,41,.25)';
+            divProdCarrito.style.marginBottom = '.5rem';
+            divProdCarrito.style.paddingTop = '.5rem';
+            divProdCarrito.style.paddingBottom = '.5rem';
+            divProdCarrito.style.textAlign = 'center';
+            divProdCarrito.setAttribute('id', productoCompra.titulo);
+            contenedorProdCarrito.appendChild(divProdCarrito);
+            document.getElementById(`${productoCompra.titulo}`).textContent = productoCompra.titulo + ' - \nCantidad: ' + productoCompra.cantEnCarrito;
+           
+            comprados.push(e);
+        } 
+        else{
+            //solamente aumento la cantidad del producto en el carrito porque ya se encuentra en él.
+            productoCompra.cantEnCarrito++;
+            document.getElementById(`${productoCompra.titulo}`).textContent = productoCompra.titulo + ' - \nCantidad: ' + productoCompra.cantEnCarrito;
+        } 
+    }
+    
+    buscarProducto(producto)
+    {
+        const prod = this.productosCarrito.find( prod =>  prod.id == producto.id)
+        return prod;
     }
 
     /* elimina el producto en la posición pos */
     quitarProducto(pos)
     {
-        this.productosCarrito[pos].cantDisponible++;
         this.productosCarrito.splice(pos,1);
     }
 
@@ -58,7 +80,7 @@ class Carrito
 
         for (const producto of this.productosCarrito)
         {
-            valorTotal += producto.precio; 
+            valorTotal += producto.precio * producto.cantEnCarrito; 
         }
         return valorTotal;
     }
@@ -94,12 +116,6 @@ class Tienda{
         this.listaProductos.push(producto);
     }
 
-    quitarProducto(producto)
-    {
-        //recorrer y comparar en la lista de productos
-
-    }
-
     /* Devuelve el producto con el título ingresado como párametro. Si no se encuentra el producto, retorna 0 */
     buscarProducto(idProducto)
     {
@@ -114,9 +130,6 @@ class Tienda{
         return producto;
     }
 
-    /*
-    quitarDelCarrito(productoCompra)
-    { }*/
 }
 
 /************************************ FUNCIONES *********************************************************** */
@@ -153,16 +166,18 @@ function cargarProductosTienda(tienda)
 
     const pintarCards = (data) => {
         data.forEach( producto => {
+
+            let nuevoProducto = new Producto(producto.id, producto.imgUrl, producto.titulo, producto.marca, producto.precio, producto.talle, producto.cantDisponible);
+            tienda.agregarProducto(nuevoProducto);
+
             templateCard.querySelector('img').setAttribute('src', producto.imgUrl);
             templateCard.querySelector('h5').textContent = producto.titulo;
+            templateCard.querySelector('h6').textContent = "Cant. disponible: " + producto.cantDisponible;
             templateCard.querySelector('p').textContent = "$ " + producto.precio;
+            templateCard.querySelector('p').style.fontSize = '1.75rem';
             templateCard.querySelector('.btn-dark').dataset.id = producto.id;
             const clone = templateCard.cloneNode(true);
             fragment.appendChild(clone);
-
-            let nuevoProducto = new Producto(producto.id, producto.imgUrl, producto.titulo, producto.marca, producto.precio, producto.talle);
-            nuevoProducto.setCantidad(5); //inicialmente habrá 5 productos de cada uno
-            tienda.agregarProducto(nuevoProducto);
         })
         items.appendChild(fragment);
     }
@@ -172,15 +187,19 @@ function cargarProductosTienda(tienda)
     })
 }
 
-function crearMenuCuotas()
+function crearMenuCuotasCarrito()
 {
     const cuotas = [1,3,6,9,12,18,24];
-    let contenedorCompra = document.getElementById('compra');
+    let contenedorCompra = document.getElementById('infoCarritoFooter');
+    const lblCuotas = document.createElement('p');
+    lblCuotas.innerText = 'Cuotas disponibles';
     const selectMenu = document.createElement('select');
+    contenedorCompra.appendChild(lblCuotas);
     contenedorCompra.appendChild(selectMenu);
-    document.querySelector("select").classList.add('form-select', 'form-select-sm', 'main__contenedor__menu__select');
-    document.querySelector("div#compra select").style.height = "66%";
-
+    lblCuotas.style.margin = '0px 0px 0px';
+    lblCuotas.style.textAlign = 'center';
+    selectMenu.classList.add('form-select', 'form-select-sm', 'selectCuotas');
+    selectMenu.style.alignSelf = 'center';
     const fragment = document.createDocumentFragment();
     for (const cuota of cuotas)
     {
@@ -191,19 +210,46 @@ function crearMenuCuotas()
     selectMenu.appendChild(fragment);
 }
 
-function crearBtnFinalizarCompra()
+function crearBtnFinalizarCompraCarrito()
 {
-    let contenedorCarrito = document.getElementById('compra');
-    const btnFinalizarCompra = document.createElement('null');
-    crearMenuCuotas();
-    btnFinalizarCompra.textContent = "Finalizar compra";
-    contenedorCarrito.appendChild(btnFinalizarCompra);
-    document.querySelector("null").classList.add('btn', 'btn-outline-success', 'main__contenedor__btn');
+    let contenedorBtn = document.getElementById('infoCarritoFooter');
+    const btnFinalizarCompra = document.createElement('button');
+    btnFinalizarCompra.textContent = "finalizar compra";
+    contenedorBtn.appendChild(btnFinalizarCompra);
+    btnFinalizarCompra.classList.add('btn', 'btn-success', 'mx-auto');
     btnFinalizarCompra.addEventListener('click', () => 
     {
-        const cantCuotas = parseInt(document.querySelector("div#compra select").value);
-        alert("Total compra: $" + tienda.carrito.totalCompraEnCuotas(cantCuotas).toFixed(2) + " en " + cantCuotas + " cuotas.\nValor cuota: $" + tienda.carrito.valorCuota(cantCuotas).toFixed(2));
+        const productosSinCantidadDisp = tienda.carrito.productosCarrito.filter(producto => producto.cantDisponible < producto.cantEnCarrito);
+        if(productosSinCantidadDisp.length != 0)
+        {
+            const strProductos = productosSinCantidadDisp.map(function(prod){return prod.titulo});
+            alert('No se puede finalizar la compra porque hay menos cantidad disponible de:\n- '+ strProductos.join('\n- ') + '\nElija menos cantidad si desea continuar con la compra.');  
+        }
+        else
+        {
+            const cantCuotas = parseInt(document.querySelector("#infoCarritoFooter select").value);
+            alert("Total compra: $" + tienda.carrito.totalCompraEnCuotas(cantCuotas).toFixed(2) + " en " + cantCuotas + " cuotas.\nValor cuota: $" + tienda.carrito.valorCuota(cantCuotas).toFixed(2));
+            tienda.carrito.productosCarrito.forEach(prod => { 
+                prod.cantDisponible -= prod.cantEnCarrito;
+                comprados.splice(0,1)[0].target.parentElement.querySelector('h6').textContent = "Cant. disponible: " + prod.cantDisponible;
+               
+            });
+        } 
     });
+}
+
+function crearFooterCarrito()
+{
+    let contenedorFooter = document.getElementById('infoCarritoFooter');
+    const separador = document.createElement('hr');
+    const lblValorCompra = document.createElement('h4');
+    lblValorCompra.textContent = 'Total: $';
+    lblValorCompra.style.textAlign = 'center';
+    lblValorCompra.style.color = 'red';
+    contenedorFooter.appendChild(separador);
+    contenedorFooter.appendChild(lblValorCompra);
+    crearMenuCuotasCarrito();
+    crearBtnFinalizarCompraCarrito();
 }
 
 function oyenteBtnComprar(e)
@@ -217,10 +263,12 @@ function oyenteBtnComprar(e)
         {
             if(tienda.carrito.productosCarrito.length == 0)
             {
-                crearBtnFinalizarCompra();
+                document.getElementById('infoCarritoFooter').innerText = ' ';
+                crearFooterCarrito();
             }
-            tienda.carrito.agregarProducto(producto);
-            alert(producto.titulo + ' agregado al carrito.\nArriba de los productos se habilitó un botón para finalizar la compra según la cantidad de cuotas seleccionada');
+            tienda.carrito.agregarProducto(producto,e);
+            alert(producto.titulo + ' agregado al carrito');
+            document.querySelector('#infoCarritoFooter h4').textContent = 'Total: $ ' + tienda.carrito.totalCompra().toFixed(2);
         }
         else
             alert("no se pudo agregar al carrito: no disponible en la tienda");
@@ -231,4 +279,5 @@ function oyenteBtnComprar(e)
 /*------------------------------------- CREACIÓN DE ELEMENTOS -----------------------------------------*/
 let tienda = crearTienda();
 cargarProductosTienda(tienda);
-
+let comprados = []; //se utiliza para poder modificar la cantidad disponible del producto comprado.
+                    //Guardo los eventos asociados al botón del producto que fue clickeado.

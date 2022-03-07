@@ -18,6 +18,14 @@
     padding-right: 0;
 }
 
+.selectCuotas{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    width: min-content;
+    justify-items: center;
+}
+
 .header{
     min-height: 3.5rem;
     max-height: min-content;
@@ -32,21 +40,19 @@
     font-weight: 500;
 }
 
-/*
-.header__contenedor{
-    color: white;
-    padding: 0px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-}*/
-
 .header__contenedor__logo{
     font-family: 'Montserrat', sans-serif;
     font-weight: 700;
     letter-spacing: .025rem;
     vertical-align: middle;
+    color: red !important;
+}
+
+.header__contenedor__carrito{
+    margin-right: 0;
+}
+
+.header__contenedor__carrito:hover{
     color: red !important;
 }
 
@@ -76,22 +82,24 @@
     background-size: cover;
 }
 
+/*
 .main__contenedor__menu__select{
     font-family: 'Montserrat', sans-serif;
     font-size: 1rem;
     font-weight: 500;
     width: min-content;
-}
+}*/
 
 #compra{
     align-items: center;
 }
 
+/*
 .main__contenedor__menu__select option{
     font-family: 'Montserrat', sans-serif;
     font-size: 1rem;
     font-weight: 500;
-}
+}*/
 
 .main__contenedor__btn{
     font-family: 'Montserrat', sans-serif;

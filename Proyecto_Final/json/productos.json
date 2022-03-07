@@ -5,7 +5,8 @@
         "titulo": "NEW BALANCE NB 327",
         "marca": "NEW BALANCE",
         "precio": 17049,
-        "talle": 42
+        "talle": 42,
+        "cantDisponible": 5
     },
     {
         "id": 2,
@@ -13,7 +14,8 @@
         "titulo": "NEW BALANCE NB 574 SPORT",
         "marca": "NEW BALANCE",
         "precio": 18399,
-        "talle": 40
+        "talle": 40,
+        "cantDisponible": 5
     },
     {
         "id": 3,
@@ -21,7 +23,8 @@
         "titulo": "NEW BALANCE NB X90",
         "marca": "NEW BALANCE",
         "precio": 19599,
-        "talle": 41
+        "talle": 41,
+        "cantDisponible": 5
     },
     {
         "id": 4,
@@ -29,7 +32,8 @@
         "titulo": "AIR ZOOM WINFLO 6",
         "marca": "NIKE",
         "precio": 22499,
-        "talle": 42
+        "talle": 42,
+        "cantDisponible": 5
     },
     {
         "id": 5,
@@ -37,7 +41,8 @@
         "titulo": "AIR ZOOM PEGASUS 36",
         "marca": "NIKE",
         "precio": 27499,
-        "talle": 41
+        "talle": 41,
+        "cantDisponible": 5
     },
     {
         "id": 6,
@@ -45,6 +50,7 @@
         "titulo": "AIR ZOOM VOMERO 14",
         "marca": "NIKE",
         "precio": 34099,
-        "talle": 40
+        "talle": 40,
+        "cantDisponible": 5
     }
 ]
