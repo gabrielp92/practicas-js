@@ -50,21 +50,42 @@ class Carrito
             divProdCarrito.style.paddingBottom = '.5rem';
             divProdCarrito.style.textAlign = 'center';
             divProdCarrito.setAttribute('id', productoCompra.titulo);
+            const textoProducto = document.createElement('p');
+            textoProducto.innerText = 'Cantidad: ' + productoCompra.cantEnCarrito;
+            textoProducto.style.marginBottom = '.25rem';
+            //creo botones para modificar la cantidad del producto agregado
+            const btnIncrementarProducto = document.createElement('button');
+            const btnDecrementarProducto = document.createElement('button');
+            btnIncrementarProducto.classList.add('btn', 'btn-info', 'btn-sm');
+            btnIncrementarProducto.onclick = oyentBtnModifCantProducto;
+            btnDecrementarProducto.classList.add('btn', 'btn-danger', 'btn-sm');
+            btnDecrementarProducto.onclick = oyentBtnModifCantProducto;
+            btnIncrementarProducto.textContent = '+';
+            btnDecrementarProducto.textContent = '-';
+            divProdCarrito.textContent = productoCompra.titulo;
+            divProdCarrito.appendChild(textoProducto);
+            divProdCarrito.appendChild(btnIncrementarProducto)
+            divProdCarrito.appendChild(btnDecrementarProducto);
             contenedorProdCarrito.appendChild(divProdCarrito);
-            document.getElementById(`${productoCompra.titulo}`).textContent = productoCompra.titulo + ' - \nCantidad: ' + productoCompra.cantEnCarrito;
-           
             comprados.push(e);
         } 
-        else{
-            //solamente aumento la cantidad del producto en el carrito porque ya se encuentra en él.
-            productoCompra.cantEnCarrito++;
-            document.getElementById(`${productoCompra.titulo}`).textContent = productoCompra.titulo + ' - \nCantidad: ' + productoCompra.cantEnCarrito;
+        else
+        {
+            productoCompra.cantEnCarrito++; //solamente aumento la cantidad del producto en el carrito porque ya se encuentra en él.
+            document.querySelector('#infoCarritoMain div p').innerText = 'Cantidad: ' + productoCompra.cantEnCarrito;
+           // document.getElementById(`${productoCompra.titulo}`).textContent = productoCompra.titulo + ' - \nCantidad: ' + productoCompra.cantEnCarrito;
         } 
     }
     
     buscarProducto(producto)
     {
         const prod = this.productosCarrito.find( prod =>  prod.id == producto.id)
+        return prod;
+    }
+
+    buscarPorTitulo(tituloProducto)
+    {
+        const prod = this.productosCarrito.find( prod =>  prod.titulo == tituloProducto)
         return prod;
     }
 
@@ -133,6 +154,20 @@ class Tienda{
 }
 
 /************************************ FUNCIONES *********************************************************** */
+
+function oyentBtnModifCantProducto(event)
+{
+    //obtengo producto para modificar su cantidad en el carrito
+    let producto = tienda.carrito.buscarPorTitulo(event.target.parentElement.id);
+
+    if(event.target.classList.contains('btn-info')) //botón incrementar cantidad de producto
+        producto.cantEnCarrito++;
+    else                                            //botón decrementar cantidad de producto
+        if(producto.cantEnCarrito > 1)
+            producto.cantEnCarrito--;   
+    event.target.parentElement.querySelector('p').innerText = 'Cantidad: ' + producto.cantEnCarrito;
+    document.querySelector('#infoCarritoFooter h4').textContent = 'Total: $ ' + tienda.carrito.totalCompra().toFixed(2);
+}
 
 /* función crearTienda */
 function crearTienda()
@@ -259,7 +294,7 @@ function oyenteBtnComprar(e)
         //primero obtengo el id del producto clickeado que se quiere agregar al carrito
         const id = e.target.parentElement.querySelector('.btn-dark').dataset.id; 
         const producto = tienda.buscarProducto(id);
-        if(producto != 0)
+        if(producto != 0)  //si encuentra el producto en la tienda
         {
             if(tienda.carrito.productosCarrito.length == 0)
             {
