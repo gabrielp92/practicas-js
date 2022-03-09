@@ -292,8 +292,8 @@ function oyenteBtnComprar(e)
     if(e.target.classList.contains('btn-dark'))
     {
         //primero obtengo el id del producto clickeado que se quiere agregar al carrito
-        const id = e.target.parentElement.querySelector('.btn-dark').dataset.id; 
-        const producto = tienda.buscarProducto(id);
+        const btnAgregar =  e.target.parentElement.querySelector('.btn-dark'); 
+        const producto = tienda.buscarProducto(btnAgregar.dataset.id);
         if(producto != 0)  //si encuentra el producto en la tienda
         {
             if(tienda.carrito.productosCarrito.length == 0)
@@ -302,7 +302,13 @@ function oyenteBtnComprar(e)
                 crearFooterCarrito();
             }
             tienda.carrito.agregarProducto(producto,e);
-            alert(producto.titulo + ' agregado al carrito');
+            btnAgregar.onanimationstart = function(){
+                btnAgregar.textContent = 'agregado al carrito';
+            };
+            btnAgregar.onanimationend =  function() {
+                btnAgregar.textContent = 'agregar al carrito';
+            };
+            btnAgregar.classList.add('animacionBtnAgregarCarrito');
             document.querySelector('#infoCarritoFooter h4').textContent = 'Total: $ ' + tienda.carrito.totalCompra().toFixed(2);
         }
         else

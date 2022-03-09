@@ -139,6 +139,21 @@
     margin: 0px;
 }
 
+/*****************************************/
+
+@keyframes animacionBtnAgregar {
+    from{
+        background-color: green;
+    } 
+    to{
+        background-color: green;
+    }
+}
+
+.animacionBtnAgregarCarrito{
+    animation: animacionBtnAgregar 2s;
+}
+
 /*************************************** HOVER **************************************/
 
 /* Underline From Left */
