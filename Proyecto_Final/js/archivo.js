@@ -307,7 +307,6 @@ function crearMenuCuotasCarrito()
     };
     contenedorCompra.appendChild(btnCalcularCuota);
     contenedorCompra.appendChild(lblValorCuota);
-
 }
 
 function crearBtnFinalizarCompraCarrito()
@@ -339,14 +338,11 @@ function crearBtnFinalizarCompraCarrito()
 
 function eliminarFooterCarrito()
 {
-
-
-
-
-   
-
-
-
+    let contenedorFooter = document.getElementById('infoCarritoFooter');
+    //remuevo cada hijo de contenedorFooter 
+    Array.from(contenedorFooter.children).forEach( hijo => {
+        hijo.remove();
+    });
 }
 
 function crearFooterCarrito()
