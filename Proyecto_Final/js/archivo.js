@@ -49,7 +49,13 @@ class Carrito
             divProdCarrito.style.paddingTop = '.5rem';
             divProdCarrito.style.paddingBottom = '.5rem';
             divProdCarrito.style.textAlign = 'center';
+            divProdCarrito.classList.add('shadow','bg-body','rounded');
             divProdCarrito.setAttribute('id', productoCompra.titulo);
+            const imgProducto = document.createElement('img');
+            imgProducto.setAttribute('src', productoCompra.imgUrl);
+            imgProducto.classList.add('card-img-top');
+            const textoTitulo = document.createElement('h5');
+            textoTitulo.innerText = productoCompra.titulo;
             const textoProducto = document.createElement('p');
             textoProducto.innerText = 'Cantidad: ' + productoCompra.cantEnCarrito;
             textoProducto.style.marginBottom = '.25rem';
@@ -62,7 +68,8 @@ class Carrito
             btnDecrementarProducto.onclick = oyentBtnModifCantProducto;
             btnIncrementarProducto.textContent = '+';
             btnDecrementarProducto.textContent = '-';
-            divProdCarrito.textContent = productoCompra.titulo;
+            divProdCarrito.appendChild(imgProducto);
+            divProdCarrito.appendChild(textoTitulo);
             divProdCarrito.appendChild(textoProducto);
             divProdCarrito.appendChild(btnIncrementarProducto)
             divProdCarrito.appendChild(btnDecrementarProducto);
@@ -204,7 +211,6 @@ function cargarProductosTienda(tienda)
 
             let nuevoProducto = new Producto(producto.id, producto.imgUrl, producto.titulo, producto.marca, producto.precio, producto.talle, producto.cantDisponible);
             tienda.agregarProducto(nuevoProducto);
-
             templateCard.querySelector('img').setAttribute('src', producto.imgUrl);
             templateCard.querySelector('h5').textContent = producto.titulo;
             templateCard.querySelector('h6').textContent = "Cant. disponible: " + producto.cantDisponible;
@@ -243,6 +249,18 @@ function crearMenuCuotasCarrito()
         fragment.appendChild(optionMenu);
     }
     selectMenu.appendChild(fragment);
+    const btnCalcularCuota = document.createElement('button');
+    btnCalcularCuota.textContent = 'calcular cuota';
+    btnCalcularCuota.classList.add('btn','btn-outline-secondary','btn-sm', 'mx-auto');
+    const lblValorCuota = document.createElement('h6');
+    lblValorCuota.style.alignSelf = 'center';
+    btnCalcularCuota.onclick = function()
+    {
+        lblValorCuota.textContent = 'Cuota: $' + tienda.carrito.valorCuota(selectMenu.value).toFixed(2);
+    };
+    contenedorCompra.appendChild(btnCalcularCuota);
+    contenedorCompra.appendChild(lblValorCuota);
+
 }
 
 function crearBtnFinalizarCompraCarrito()
@@ -267,7 +285,6 @@ function crearBtnFinalizarCompraCarrito()
             tienda.carrito.productosCarrito.forEach(prod => { 
                 prod.cantDisponible -= prod.cantEnCarrito;
                 comprados.splice(0,1)[0].target.parentElement.querySelector('h6').textContent = "Cant. disponible: " + prod.cantDisponible;
-               
             });
         } 
     });
@@ -292,7 +309,7 @@ function oyenteBtnComprar(e)
     if(e.target.classList.contains('btn-dark'))
     {
         //primero obtengo el id del producto clickeado que se quiere agregar al carrito
-        const btnAgregar =  e.target.parentElement.querySelector('.btn-dark'); 
+        const btnAgregar =  e.target.parentElement.querySelector('.btn-dark');
         const producto = tienda.buscarProducto(btnAgregar.dataset.id);
         if(producto != 0)  //si encuentra el producto en la tienda
         {
@@ -307,6 +324,7 @@ function oyenteBtnComprar(e)
             };
             btnAgregar.onanimationend =  function() {
                 btnAgregar.textContent = 'agregar al carrito';
+                btnAgregar.classList.remove('animacionBtnAgregarCarrito');
             };
             btnAgregar.classList.add('animacionBtnAgregarCarrito');
             document.querySelector('#infoCarritoFooter h4').textContent = 'Total: $ ' + tienda.carrito.totalCompra().toFixed(2);
