@@ -51,6 +51,13 @@ class Carrito
             divProdCarrito.style.textAlign = 'center';
             divProdCarrito.classList.add('shadow','bg-body','rounded');
             divProdCarrito.setAttribute('id', productoCompra.titulo);
+            const divBtnCerrar = document.createElement('div');
+            divBtnCerrar.style.paddingRight = '.5rem';
+            divBtnCerrar.style.textAlign = 'right';
+            const btnCerrar = document.createElement('button');
+            btnCerrar.classList.add('btn-close');
+            divBtnCerrar.appendChild(btnCerrar);
+            divBtnCerrar.onclick = oyenteBtnQuitarProducto;
             const imgProducto = document.createElement('img');
             imgProducto.setAttribute('src', productoCompra.imgUrl);
             imgProducto.classList.add('card-img-top');
@@ -68,6 +75,7 @@ class Carrito
             btnDecrementarProducto.onclick = oyentBtnModifCantProducto;
             btnIncrementarProducto.textContent = '+';
             btnDecrementarProducto.textContent = '-';
+            divProdCarrito.appendChild(divBtnCerrar);
             divProdCarrito.appendChild(imgProducto);
             divProdCarrito.appendChild(textoTitulo);
             divProdCarrito.appendChild(textoProducto);
@@ -96,10 +104,21 @@ class Carrito
         return prod;
     }
 
-    /* elimina el producto en la posición pos */
-    quitarProducto(pos)
+    quitarProducto(tituloProducto)
     {
-        this.productosCarrito.splice(pos,1);
+        const cantProductos = this.productosCarrito.length;
+        let i = 0, encontre = false;
+        while(!encontre && (i < cantProductos))
+        {
+            if(this.productosCarrito[i].titulo == tituloProducto)
+            {
+                this.productosCarrito[i].cantEnCarrito = 0;
+                this.productosCarrito.splice(i,1);
+                encontre = true;
+            }
+            else
+                i++;
+        }
     }
 
     totalCompra()
@@ -157,10 +176,33 @@ class Tienda{
         }
         return producto;
     }
-
 }
 
 /************************************ FUNCIONES *********************************************************** */
+
+function oyenteBtnQuitarProducto(event)
+{
+    //obtengo el div del producto a eliminar del carrito
+    const divAEliminar = event.target.parentNode.parentNode;
+    //remuevo el producto de la lista de productos de Carrito
+    tienda.carrito.quitarProducto(divAEliminar.id);
+    //remuevo cada hijo del div del producto a eliminar 
+    Array.from(divAEliminar.children).forEach( hijo => {
+        hijo.remove();
+    });
+    //elimino el div
+    document.querySelector('#infoCarritoMain').removeChild(divAEliminar);
+    //elimino el botón clickeado
+    event.target.remove();
+    //actualizo el valor de la compra (sin el valor del producto removido)
+    actualizarTotal();
+    //si el carrito queda sin productos también se elimina el footer del carrito porque ya no se utilizará.
+    if(tienda.carrito.productosCarrito.length == 0)
+    {
+        eliminarFooterCarrito();
+        document.getElementById('infoCarritoFooter').textContent = 'Carrito vacío';
+    }
+}
 
 function oyentBtnModifCantProducto(event)
 {
@@ -173,6 +215,11 @@ function oyentBtnModifCantProducto(event)
         if(producto.cantEnCarrito > 1)
             producto.cantEnCarrito--;   
     event.target.parentElement.querySelector('p').innerText = 'Cantidad: ' + producto.cantEnCarrito;
+    actualizarTotal();
+}
+
+function actualizarTotal()
+{
     document.querySelector('#infoCarritoFooter h4').textContent = 'Total: $ ' + tienda.carrito.totalCompra().toFixed(2);
 }
 
@@ -290,6 +337,18 @@ function crearBtnFinalizarCompraCarrito()
     });
 }
 
+function eliminarFooterCarrito()
+{
+
+
+
+
+   
+
+
+
+}
+
 function crearFooterCarrito()
 {
     let contenedorFooter = document.getElementById('infoCarritoFooter');
@@ -327,7 +386,7 @@ function oyenteBtnComprar(e)
                 btnAgregar.classList.remove('animacionBtnAgregarCarrito');
             };
             btnAgregar.classList.add('animacionBtnAgregarCarrito');
-            document.querySelector('#infoCarritoFooter h4').textContent = 'Total: $ ' + tienda.carrito.totalCompra().toFixed(2);
+            actualizarTotal();
         }
         else
             alert("no se pudo agregar al carrito: no disponible en la tienda");
