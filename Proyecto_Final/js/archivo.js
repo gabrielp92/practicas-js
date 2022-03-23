@@ -170,28 +170,48 @@ class Tienda{
 
 function oyenteBtnQuitarProducto(event)
 {
-    //obtengo el div del producto a eliminar del carrito
-    const divAEliminar = event.target.parentNode.parentNode;
-    //remuevo el producto de la lista de productos de Carrito
-    const eliminado = tienda.carrito.quitarProducto(divAEliminar.id);
-    eliminarLocalStorage(eliminado);
-    //remuevo cada hijo del div del producto a eliminar 
-    Array.from(divAEliminar.children).forEach( hijo => {
-        hijo.remove();
-    });
-    //elimino el div
-    document.querySelector('#infoCarritoMain').removeChild(divAEliminar);
-    //elimino el botón clickeado
-    event.target.remove();
-    //actualizo el valor de la compra (sin el valor del producto removido)
-    actualizarTotal();
-    //si el carrito queda sin productos también se elimina el footer del carrito porque ya no se utilizará.
-    if(tienda.carrito.productosCarrito.length == 0)
-    {
-        eliminarTodoLocalStorage();
-        eliminarFooterCarrito();
-        document.getElementById('infoCarritoFooter').textContent = 'Carrito vacío';
-    }
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+    })
+    swalWithBootstrapButtons.fire({
+        title: '¿Está seguro que desea eliminar este producto?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí',
+        cancelButtonText: 'No',
+      }).then((result) => {
+        if (result.isConfirmed)
+        {
+            //obtengo el div del producto a eliminar del carrito
+            const divAEliminar = event.target.parentNode.parentNode;
+            //remuevo el producto de la lista de productos de Carrito
+            const eliminado = tienda.carrito.quitarProducto(divAEliminar.id);
+            eliminarLocalStorage(eliminado);
+            //remuevo cada hijo del div del producto a eliminar 
+            Array.from(divAEliminar.children).forEach( hijo => {
+                hijo.remove();
+            });
+            //elimino el div
+            document.querySelector('#infoCarritoMain').removeChild(divAEliminar);
+            //elimino el botón clickeado
+            event.target.remove();
+            //actualizo el valor de la compra (sin el valor del producto removido)
+            actualizarTotal();
+            //si el carrito queda sin productos también se elimina el footer del carrito porque ya no se utilizará.
+            if(tienda.carrito.productosCarrito.length == 0)
+            {
+                eliminarTodoLocalStorage();
+                eliminarFooterCarrito();
+                document.getElementById('infoCarritoFooter').textContent = 'Carrito vacío';
+            }    
+            }
+      })
 }
 
 function oyentBtnModifCantProducto(event)
@@ -308,21 +328,57 @@ function crearBtnFinalizarCompraCarrito()
     {
         const productosSinCantidadDisp = tienda.carrito.productosCarrito.filter(producto => producto.cantDisponible < producto.cantEnCarrito);
         if(productosSinCantidadDisp.length != 0)
-        {
-            const strProductos = productosSinCantidadDisp.map(function(prod){return prod.titulo});
-            alert('No se puede finalizar la compra porque hay menos cantidad disponible de:\n- '+ strProductos.join('\n- ') + '\nElija menos cantidad si desea continuar con la compra.');  
-        }
+            mensajeErrorCompra(productosSinCantidadDisp);
         else
         {
-            const cantCuotas = parseInt(document.querySelector("#infoCarritoFooter select").value);
-            alert("Total compra: $" + tienda.carrito.totalCompraEnCuotas(cantCuotas).toFixed(2) + " en " + cantCuotas + " cuotas.\nValor cuota: $" + tienda.carrito.valorCuota(cantCuotas).toFixed(2));
+            mensajeCompraExitosa();
             tienda.carrito.productosCarrito.forEach(prod => { 
                 prod.cantDisponible -= prod.cantEnCarrito;
                 //comprados.splice(0,1)[0].target.parentElement.querySelector('h6').textContent = "Cant. disponible: " + prod.cantDisponible;
-                comprados.splice(0,1)[0].parentElement.querySelector('h6').textContent = "Cant. disponible: " + prod.cantDisponible;
+                comprados.splice(0,1)[0].parentElement.querySelector('h6').textContent = "Cant. disponible: " + prod.cantDisponible;   
             });
         } 
     });
+}
+
+function mensajeErrorCompra(productosSinCantidadDisp)
+{
+    const strProductos = productosSinCantidadDisp.map(function(prod){return prod.titulo});
+    Swal.fire({
+        icon: 'error',
+        title: 'Modifique su compra',
+        html: `Debe elegir menos cantidad de:<br><b>${strProductos.join('\n- ')}</b>`
+      })
+}
+
+function mensajeCompraExitosa()
+{
+    const cantCuotas = parseInt(document.querySelector("#infoCarritoFooter select").value);
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+    })
+    swalWithBootstrapButtons.fire({
+        title: '¿Desea confirmar la compra?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Confirmar',
+        cancelButtonText: 'Cancelar',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire(
+            'Compra realizada con éxito',
+            `Recibirás tu compra dentro de los próximos 5 días.<b><br>Total compra: $${tienda.carrito.totalCompraEnCuotas(cantCuotas).toFixed(2)}</b> en <b>${cantCuotas} cuotas.<br>Valor cuota: $${tienda.carrito.valorCuota(cantCuotas).toFixed(2)}</b>`,
+            'success',
+            eliminarCarrito()
+          )
+        }
+      })
 }
 
 function eliminarFooterCarrito()
@@ -333,6 +389,20 @@ function eliminarFooterCarrito()
         hijo.remove();
     });
 }
+
+function eliminarCarrito()
+{
+    tienda.carrito.productosCarrito.forEach(producto => {
+        tienda.carrito.quitarProducto(producto.titulo);
+        Array.from(document.querySelector('#infoCarritoMain').children).forEach( hijo => {
+            hijo.remove();
+        });
+    });
+    eliminarTodoLocalStorage();
+    eliminarFooterCarrito();
+    document.getElementById('infoCarritoFooter').textContent = 'Carrito vacío';
+}
+
 
 function crearFooterCarrito()
 {

@@ -6,7 +6,7 @@
         "marca": "NEW BALANCE",
         "precio": 17049,
         "talle": 42,
-        "cantDisponible": 5
+        "cantDisponible": 20
     },
     {
         "id": 2,
@@ -15,7 +15,7 @@
         "marca": "NEW BALANCE",
         "precio": 18399,
         "talle": 40,
-        "cantDisponible": 5
+        "cantDisponible": 20
     },
     {
         "id": 3,
@@ -24,7 +24,7 @@
         "marca": "NEW BALANCE",
         "precio": 19599,
         "talle": 41,
-        "cantDisponible": 5
+        "cantDisponible": 20
     },
     {
         "id": 4,
@@ -33,7 +33,7 @@
         "marca": "NIKE",
         "precio": 22499,
         "talle": 42,
-        "cantDisponible": 5
+        "cantDisponible": 20
     },
     {
         "id": 5,
@@ -42,7 +42,7 @@
         "marca": "NIKE",
         "precio": 27499,
         "talle": 41,
-        "cantDisponible": 5
+        "cantDisponible": 20
     },
     {
         "id": 6,
@@ -51,6 +51,6 @@
         "marca": "NIKE",
         "precio": 34099,
         "talle": 40,
-        "cantDisponible": 5
+        "cantDisponible": 20
     }
 ]
