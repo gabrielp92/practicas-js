@@ -3,17 +3,12 @@
 /* clase Producto */
 class Producto
 {
-    constructor(id,imgUrl,titulo,marca,precio,talle,cantDisponible)
+    constructor(producto)
     {
-        this.id = id;
-        this.imgUrl = imgUrl; //para luego poder cargar la imágen del producto
-        this.titulo = titulo;
-        this.marca = marca;
-        this.precio = precio;
-        this.talle = talle;
+        //desestructuración y alias
+        ({ id:this.id, imgUrl:this.imgUrl, titulo:this.titulo, marca:this.marca, precio:this.precio, talle:this.talle, cantDisponible:this.cantDisponible} = producto);
         this.descripcion = "";
-        this.cantDisponible = cantDisponible;    //cantidad disponible en la tienda
-        this.cantEnCarrito = 0;                 //cantidad seleccionada en el carrito de ese producto    
+        this.cantEnCarrito = 0; //cantidad seleccionada en el carrito de ese producto 
     }
 
     setCantidad(cantDisponible)
@@ -41,8 +36,7 @@ class Carrito
         {
             //se agrega el producto por primera vez en el carrito.
             this.productosCarrito.push(productoCompra);
-            if(productoCompra.cantEnCarrito == 0)
-                productoCompra.cantEnCarrito = 1;
+            productoCompra.cantEnCarrito = productoCompra.cantEnCarrito == 0 ? 1 : productoCompra.cantEnCarrito;
             let contenedorProdCarrito = document.querySelector('#infoCarritoMain');
             const divProdCarrito = document.createElement('div');
             divProdCarrito.style.border = '1.5px groove rgba(33,37,41,.25)';
@@ -94,14 +88,12 @@ class Carrito
     
     buscarProducto(producto)
     {
-        const prod = this.productosCarrito.find( prod =>  prod.id == producto.id)
-        return prod;
+        return this.productosCarrito.find( prod =>  prod.id == producto.id);
     }
 
     buscarPorTitulo(tituloProducto)
     {
-        const prod = this.productosCarrito.find( prod =>  prod.titulo.replace(/ /g, "") == tituloProducto)
-        return prod;
+        return this.productosCarrito.find( prod =>  prod.titulo.replace(/ /g, "") == tituloProducto);
     }
 
     quitarProducto(tituloProducto)
@@ -137,12 +129,8 @@ class Carrito
     totalCompraEnCuotas(cantCuotas)
     {
         //hasta 6 cuotas sin interés
-        let valorTotal;
-        if((cantCuotas >= 0) && (cantCuotas <=6))
-            valorTotal = this.totalCompra();
-        else
-            valorTotal = this.totalCompra() * ( 1 + 0.05 * cantCuotas); //por cada cuota hay un 5% de interés
-        return valorTotal;
+        //por cada cuota hay un 5% de interés
+        return (cantCuotas >= 0) && (cantCuotas <=6) ? this.totalCompra() : this.totalCompra() * ( 1 + 0.05 * cantCuotas);
     }
 
     valorCuota(cantCuotas)
@@ -171,10 +159,8 @@ class Tienda{
         let producto = 0;
         for (let productoTienda of this.listaProductos)
         {
-            if(productoTienda.id == idProducto)
-            {
+            if(productoTienda.id == idProducto) 
                 producto = productoTienda;
-            }
         }
         return producto;
     }
@@ -213,11 +199,8 @@ function oyentBtnModifCantProducto(event)
     //obtengo producto para modificar su cantidad en el carrito
     let producto = tienda.carrito.buscarPorTitulo(event.target.parentElement.id);
 
-    if(event.target.classList.contains('btn-info')) //botón incrementar cantidad de producto
-        producto.cantEnCarrito++;
-    else                                            //botón decrementar cantidad de producto
-        if(producto.cantEnCarrito > 1)
-            producto.cantEnCarrito--;   
+    event.target.classList.contains('btn-info') ? producto.cantEnCarrito++      //botón incrementar cantidad de producto
+    : producto.cantEnCarrito > 1 && producto.cantEnCarrito--;                   //botón decrementar cantidad de producto   
     event.target.parentElement.querySelector('p').innerText = 'Cantidad: ' + producto.cantEnCarrito;
     actualizarTotal();
     agregarLocalStorageProd(producto); //actualizo el local storage con el producto modificado
@@ -260,9 +243,7 @@ function cargarProductosTienda(tienda)
 
     const pintarCards = (data) => {
         data.forEach( producto => {
-
-            let nuevoProducto = new Producto(producto.id, producto.imgUrl, producto.titulo, producto.marca, producto.precio, producto.talle, producto.cantDisponible);
-            tienda.agregarProducto(nuevoProducto);
+            tienda.agregarProducto(new Producto(producto));
             templateCard.querySelector('img').setAttribute('src', producto.imgUrl);
             templateCard.querySelector('h5').textContent = producto.titulo;
             templateCard.querySelector('h6').textContent = "Cant. disponible: " + producto.cantDisponible;
@@ -377,9 +358,7 @@ function oyenteBtnComprar(eTarget)
         if(producto != 0)  //si encuentra el producto en la tienda
         {
             //si el producto no está en el carrito entonces lo almaceno en el localStorage
-            if(tienda.carrito.buscarProducto(producto) == null) 
-                agregarLocalStorage(producto,eTarget);
-            
+            tienda.carrito.buscarProducto(producto) == null && agregarLocalStorage(producto,eTarget);
             if(tienda.carrito.productosCarrito.length == 0)
             {
                 document.getElementById('infoCarritoFooter').innerText = '';
