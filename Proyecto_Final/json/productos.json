@@ -1,6 +1,24 @@
 [
     {
         "id": 1,
+        "imgUrl": "../assets/img/NB-420-V2/nb-420-v2.jpg",
+        "titulo": "NEW BALANCE NB 420 V2",
+        "marca": "NEW BALANCE",
+        "precio": 10599,
+        "talle": 41,
+        "cantDisponible": 20
+    },
+    {
+        "id": 2,
+        "imgUrl": "../assets/img/NB-FRESH-FOAM-LAZR/fresh-foam-lazr.jpg",
+        "titulo": "NEW BALANCE NB 880 V11",
+        "marca": "NEW BALANCE",
+        "precio": 15299,
+        "talle": 39,
+        "cantDisponible": 20
+    },
+    {
+        "id": 3,
         "imgUrl": "../assets/img/NB-327/nb-327-1.jpg",
         "titulo": "NEW BALANCE NB 327",
         "marca": "NEW BALANCE",
@@ -9,7 +27,7 @@
         "cantDisponible": 20
     },
     {
-        "id": 2,
+        "id": 4,
         "imgUrl": "../assets/img/NB-574-SPORT/574-sport-1.jpg",
         "titulo": "NEW BALANCE NB 574 SPORT",
         "marca": "NEW BALANCE",
@@ -18,7 +36,7 @@
         "cantDisponible": 20
     },
     {
-        "id": 3,
+        "id": 5,
         "imgUrl": "../assets/img/NB-X90/nb-x90-1.jpg",
         "titulo": "NEW BALANCE NB X90",
         "marca": "NEW BALANCE",
@@ -27,7 +45,25 @@
         "cantDisponible": 20
     },
     {
-        "id": 4,
+        "id": 6,
+        "imgUrl": "../assets/img/SALOMON-SUPERCROSS-BLAST/supercross-blast.jpg",
+        "titulo": "SUPERCROSS BLAST",
+        "marca": "SALOMON",
+        "precio": 20699,
+        "talle": 43,
+        "cantDisponible": 20
+    },
+    {
+        "id": 7,
+        "imgUrl": "../assets/img/NIKE-AIR-ZOOM-WINFLO-5/air-zoom-winflo-5.jpg",
+        "titulo": "AIR ZOOM WINFLO 5",
+        "marca": "NIKE",
+        "precio": 22499,
+        "talle": 41,
+        "cantDisponible": 20
+    },
+    {
+        "id": 8,
         "imgUrl": "../assets/img/NIKE-AIR-ZOOM-WINFLO-6/air-zoom-winflo-6-1.jpg",
         "titulo": "AIR ZOOM WINFLO 6",
         "marca": "NIKE",
@@ -36,7 +72,7 @@
         "cantDisponible": 20
     },
     {
-        "id": 5,
+        "id": 9,
         "imgUrl": "../assets/img/NIKE-PEGASUS-36/air-zoom-pegasus-36.jpg",
         "titulo": "AIR ZOOM PEGASUS 36",
         "marca": "NIKE",
@@ -45,12 +81,30 @@
         "cantDisponible": 20
     },
     {
-        "id": 6,
-        "imgUrl": "../assets/img/NIKE-VOMERO-14/air-zoom-vomero-14.jpg",
+        "id": 10,
+        "imgUrl": "../assets/img/NIKE-AIR-MAX-2090/air-max-2090.jpg",
         "titulo": "AIR ZOOM VOMERO 14",
         "marca": "NIKE",
-        "precio": 34099,
+        "precio": 32699,
+        "talle": 41,
+        "cantDisponible": 20
+    },  
+    {
+        "id": 11,
+        "imgUrl": "../assets/img/NIKE-AIR-MAX-720/air-max-720-bubble-pack.jpg",
+        "titulo": "AIR MAX 720 BUBBLE PACK",
+        "marca": "NIKE",
+        "precio": 39899,
         "talle": 40,
+        "cantDisponible": 20
+    },
+    {
+        "id": 12,
+        "imgUrl": "../assets/img/NIKE-JOYRIDE-RUN-FLYKNIT/joyride-run-flyknit.jpg",
+        "titulo": "JOYRIDE RUN FLYKNIT",
+        "marca": "NIKE",
+        "precio": 42499,
+        "talle": 43,
         "cantDisponible": 20
     }
 ]
