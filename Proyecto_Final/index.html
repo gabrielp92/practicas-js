@@ -73,11 +73,21 @@
         <main class="row main">
             <div class="col main__contenedor">
                 <img class="img-fluid main__contenedor__bannerPrincipal" src="./assets/img/Banner-Principal.jpg" alt="banner-zapatillas">
-                <!--alerta-->
+                <!-- alerta -->
                 <div class="alert alert-success alert-dismissible fade show alerta" role="alert">Envío GRATIS a partir de $14999
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
                 </div>
-                <!--contenedor de productos -->
+                <!-- orden de productos -->
+                <div class="row d-flex align-items-center justify-content-sm-center ms-0 ms-sm-auto mb-3 mt-3">
+                    <div class="me-0 me-sm-1">
+                        <select class="form-select form-select-md form-control bg-dark optionOrdenar" id="select-ordenar" aria-label="selector ordenar por">
+                            <option class="optionOrdenar" selected>Ordenar por</option>
+                            <option class="optionOrdenar" value="precio-ascendente" id="precio-ascendente">Precio: menor a mayor</option>
+                            <option class="optionOrdenar" value="precio-descendente" id="precio-descendente">Precio: mayor a menor</option>
+                        </select>
+                    </div>                  
+                </div>
+                <!-- contenedor de productos -->
                 <div class="row" id="items"></div>
                 <template id="template-card">
                     <div class="col-12 col-md-4 col-xxl-6 mt-2 mb-4">

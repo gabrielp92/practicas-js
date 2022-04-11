@@ -82,24 +82,22 @@
     background-size: cover;
 }
 
-/*
-.main__contenedor__menu__select{
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1rem;
-    font-weight: 500;
-    width: min-content;
-}*/
+.optionOrdenar{
+    color: white;
+}
+
+.optionOrdenar:focus{
+    color: transparent;
+}
+
+.optionOrdenar:focus-visible{
+    color: transparent;
+}
+
 
 #compra{
     align-items: center;
 }
-
-/*
-.main__contenedor__menu__select option{
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1rem;
-    font-weight: 500;
-}*/
 
 .main__contenedor__btn{
     font-family: 'Montserrat', sans-serif;
