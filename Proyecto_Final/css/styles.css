@@ -128,7 +128,7 @@
     font-size: 1rem;
     padding: 0px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -137,7 +137,11 @@
     margin: 0px;
 }
 
-/*****************************************/
+/**********************************************/
+ion-icon {
+    color: white;    
+}
+/**********************************************/
 
 @keyframes animacionBtnAgregar {
     from{

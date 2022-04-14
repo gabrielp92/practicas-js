@@ -30,6 +30,8 @@ class Carrito
         {
             //se agrega el producto por primera vez en el carrito.
             this.productosCarrito.push(productoCompra);
+            //actualizo cantidad en badge del carrito
+            document.getElementById('badgeCarrito').textContent++;
             productoCompra.cantEnCarrito = productoCompra.cantEnCarrito == 0 ? 1 : productoCompra.cantEnCarrito;
             let contenedorProdCarrito = document.querySelector('#infoCarritoMain');
             const divProdCarrito = document.createElement('div');
@@ -50,6 +52,7 @@ class Carrito
             const imgProducto = document.createElement('img');
             imgProducto.setAttribute('src', productoCompra.imgUrl);
             imgProducto.classList.add('card-img-top');
+            imgProducto.style.maxWidth = '50%';
             const textoTitulo = document.createElement('h5');
             textoTitulo.innerText = productoCompra.titulo;
             const textoProducto = document.createElement('p');
@@ -101,6 +104,7 @@ class Carrito
             {
                 this.productosCarrito[i].cantEnCarrito = 0;
                 eliminado = this.productosCarrito.splice(i,1);
+                document.getElementById('badgeCarrito').textContent--;
                 encontre = true;
             }
             else
@@ -340,6 +344,7 @@ function crearBtnFinalizarCompraCarrito()
         else
         {
             mensajeCompraExitosa();
+            document.getElementById('badgeCarrito').textContent = 0;
             tienda.carrito.productosCarrito.forEach(prod => { 
                 prod.cantDisponible -= prod.cantEnCarrito;
                 //comprados.splice(0,1)[0].target.parentElement.querySelector('h6').textContent = "Cant. disponible: " + prod.cantDisponible;

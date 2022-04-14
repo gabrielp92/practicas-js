@@ -46,14 +46,14 @@
     <div class="container_fluid">
         <header class="row header">
             <div class="col header__contenedor">
-                <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-                    <div class="container-fluid">
-                        <a class="navbar-brand header__contenedor__logo" href="#">TiendaSport</a>
+                <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark flex-nowrap">
+                    <div class="container-fluid order-sm-1 order-2 flex-wrap">
+                        <a class="navbar-brand header__contenedor__logo ps-3" href="#">TiendaSport</a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
                         <div class="collapse navbar-collapse" id="navbarCollapse">
-                            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                            <ul class="navbar-nav me-auto mb-2 mb-md-0 align-items-end">
                                 <li class="nav-item">
                                     <a class="nav-link active hvr-underline-from-left" aria-current="page" href="#">Calzado</a>
                                 </li>
@@ -64,9 +64,13 @@
                                     <a class="nav-link active hvr-underline-from-left" aria-current="page" href="#">Novedades</a>
                                 </li>
                             </ul>
-                            <a class="navbar-brand header__contenedor__carrito" data-bs-toggle="offcanvas" href="#offCanvasCarrito" role="button" aria-controls="offCanvasCarrito">MiCarrito</a>
                         </div>
                     </div>
+                    <!-- ícono carrito --> 
+                    <a class="order-sm-2 order-1 navbar-brand header__contenedor__carrito position-relative mx-sm-5 ms-2 ps-2 py-0 mt-3" data-bs-toggle="offcanvas" href="#offCanvasCarrito" role="button" aria-controls="offCanvasCarrito">
+                        <ion-icon name="cart-outline" size="large"></ion-icon>
+                        <span id="badgeCarrito" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+                    </a>
                 </nav>
             </div>
         </header>
@@ -107,9 +111,25 @@
         </main>
         <footer class="row footer">
             <div class="col footer__contenedor">
-                <p class="footer_contendor__text">© 2022 - Gabriel Ignacio Paez</p>
+                <div class="row mt-3">
+                    <a class="col px-0" href="https://github.com/gabrielp92" title="acceder a github" target="_blank">
+                        <ion-icon name="logo-github" size="large"></ion-icon>
+                    </a>
+                    <a class="col px-2" href="https://www.linkedin.com/in/gabriel-paez/" title="acceder a linkedin" target="_blank">
+                        <ion-icon name="logo-linkedin" size="large"></ion-icon>
+                    </a>
+                    <a class="col px-0" href="https://www.instagram.com/_gabriel.paez/" title="acceder a instagram" target="_blank">
+                        <ion-icon name="logo-instagram" size="large"></ion-icon>
+                    </a>
+                </div>
+                <div class="row mt-0 mb-3">© 2022 - GABRIEL IGNACIO PAEZ</div>
+
+
             </div>
         </footer>
+        <!-- para utilizar íconos-->
+        <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
         <!--librería AOS-->
         <script>
             AOS.init();
