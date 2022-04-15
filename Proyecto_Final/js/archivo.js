@@ -344,7 +344,6 @@ function crearBtnFinalizarCompraCarrito()
         else
         {
             mensajeCompraExitosa();
-            document.getElementById('badgeCarrito').textContent = 0;
             tienda.carrito.productosCarrito.forEach(prod => { 
                 prod.cantDisponible -= prod.cantEnCarrito;
                 //comprados.splice(0,1)[0].target.parentElement.querySelector('h6').textContent = "Cant. disponible: " + prod.cantDisponible;
@@ -473,6 +472,7 @@ function mensajeCompraExitosa()
             'Compra realizada con éxito',
             `Recibirás tu compra dentro de los próximos 5 días.<b><br>Total compra: $${tienda.carrito.totalCompraEnCuotas(cantCuotas).toFixed(2)}</b> en <b>${cantCuotas} cuotas.<br>Valor cuota: $${tienda.carrito.valorCuota(cantCuotas).toFixed(2)}</b>`,
             'success',
+            document.getElementById('badgeCarrito').textContent = 0,
             eliminarCarrito()
           )
         }
